@@ -15,13 +15,13 @@ class ChatGPTClient:
         self.api_key = api_key
         openai.api_key = api_key
 
-    async def generate_response(self, prompt: str, messages: list):
+    def generate_response(self, prompt: str, messages: list = []):
         model_engine = "text-davinci-003"
 
         messages.append({"role": "user", "content": prompt})
 
         try:
-            response = await openai.ChatCompletion.acreate(
+            response = openai.ChatCompletion.create(
                 engine=model_engine,
                 messages=messages,
                 max_tokens=100,
