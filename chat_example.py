@@ -2,7 +2,7 @@ from ChatGPT.chat_gpt_client import ChatGPTClient
 
 def run_example_request(api_key):
     client = ChatGPTClient(api_key)
-    response = client.generate_response("how are you?")
+    response = client.generate_response("What is the weather in Ukraine?")
     print(response)
 
 if __name__ == "__main__":
