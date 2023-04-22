@@ -38,7 +38,7 @@ class DALLEClient:
 
     def generate_images(self, image_data: ImageRequestData) -> list | None:
         try:
-            response = openai.Image.create(prompt=image_data.description, n=image_data.count, size=image_data.size.value)
+            response = openai.Image.create(prompt=image_data.description, n=image_data.count, size=image_data.size.value[0])
             if response:
                 return [img["url"] for img in response["data"]]
         except Exception as e:
