@@ -1,14 +1,11 @@
 import logging
 import openai
 
+# Configure logging
 logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    level=logging.INFO,
-    handlers=[
-        logging.StreamHandler(),
-        logging.FileHandler("chat_gpt_client.log"),
-    ],
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
 )
+logger = logging.getLogger(__name__)
 
 class ChatGPTClient:
     def __init__(self, api_key: str):
@@ -33,5 +30,5 @@ class ChatGPTClient:
             messages.append({"role": "assistant", "content": reply})
             return reply
         except Exception as e:
-            logging.error(f"Error generating GPT response: {e}")
+            logger.error(f"Error generating GPT response: {e}")
             return "An error occurred while generating a response. Please try again."
