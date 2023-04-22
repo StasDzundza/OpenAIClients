@@ -1,5 +1,6 @@
 import logging
 import openai
+from enum import Enum
 
 # Configure logging
 logging.basicConfig(
@@ -8,27 +9,49 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class ChatGPTClient:
-    def __init__(self, api_key: str):
-        self.api_key = api_key
+    def __init__(self, api_key: str, assistant_role: str = "chatbot"):
         openai.api_key = api_key
+        self._api_key = api_key
+        self._engine_model = "gpt-3.5-turbo"
+        self._message_history = [{"role": "system", "content": f"You are a {assistant_role}"}]
 
-    def generate_response(self, prompt: str, messages: list = []):
-        model_engine = "text-davinci-003"
-
-        messages.append({"role": "user", "content": prompt})
+    def ask_chat(self, prompt: str):
+        self._message_history.append({"role": "user", "content": prompt})
 
         try:
             response = openai.ChatCompletion.create(
-                engine=model_engine,
-                messages=messages,
-                max_tokens=100,
+                model=self._engine_model,
+                messages=self._message_history,
+                max_tokens=2048,
                 n=1,
                 stop=None,
                 temperature=0.5,
             )
-            reply = response.choices[0].message["content"].strip()
-            messages.append({"role": "assistant", "content": reply})
-            return reply
+            response = response.choices[0].message["content"].strip()
+            self._message_history.append({"role": "assistant", "content": response})
+            return response
         except Exception as e:
-            logger.error(f"Error generating GPT response: {e}")
+            logger.error(f"Error generating ChatGPTClient response: {e}")
+            return "An error occurred while generating a response. Please try again."
+
+class TextDavinciClient:
+    def __init__(self, api_key: str):
+        openai.api_key = api_key
+        self._api_key = api_key
+        self._engine_model = "text-davinci-003"
+
+    def ask_question(self, prompt: str):
+        try:
+            completion = openai.Completion.create(
+                engine=self._engine_model,
+                prompt=prompt,
+                max_tokens=2048,
+                n=1,
+                stop=None,
+                temperature=0.5,
+            )
+            response = completion.choices[0].text
+            return response
+        except Exception as e:
+            logger.error(f"Error generating TextDavinciClient response: {e}")
             return "An error occurred while generating a response. Please try again."

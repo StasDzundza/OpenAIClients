@@ -1,10 +1,16 @@
-from ChatGPT.chat_gpt_client import ChatGPTClient
+from ChatGPT.chat_gpt_client import ChatGPTClient, TextDavinciClient
 
-def run_example_request(api_key):
-    client = ChatGPTClient(api_key)
-    response = client.generate_response("What is the weather in Ukraine?")
-    print(response)
+def run_chat_example_request(api_key):
+    client = ChatGPTClient(api_key, "Weatherman")
+    response = client.ask_chat("What is the weather in Ukraine for the next week?")
+    print(f"Chat answer: {response}")
+
+def run_text_davinci_request(api_key):
+    client = TextDavinciClient(api_key)
+    response = client.ask_question("What is the weather in Ukraine for the next week?")
+    print(f"Davinci model answer: {response}")
 
 if __name__ == "__main__":
     api_key = "YOUR_API_KEY" # use your API key here
-    run_example_request(api_key)
+    run_chat_example_request(api_key)
+    run_text_davinci_request(api_key)
