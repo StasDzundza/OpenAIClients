@@ -10,7 +10,6 @@ logger = logging.getLogger(__name__)
 
 class ChatGPTClient:
     def __init__(self, api_key: str, assistant_role: str = "chatbot"):
-        openai.api_key = api_key
         self._api_key = api_key
         self._engine_model = "gpt-3.5-turbo"
         self._message_history = [{"role": "system", "content": f"You are a {assistant_role}"}]
@@ -20,6 +19,7 @@ class ChatGPTClient:
 
         try:
             response = openai.ChatCompletion.create(
+                api_key = self._api_key,
                 model=self._engine_model,
                 messages=self._message_history,
                 max_tokens=2048,
@@ -35,15 +35,12 @@ class ChatGPTClient:
             return "An error occurred while generating a response. Please try again."
 
 class TextDavinciClient:
-    def __init__(self, api_key: str):
-        openai.api_key = api_key
-        self._api_key = api_key
-        self._engine_model = "text-davinci-003"
-
-    def ask_question(self, prompt: str):
+    @staticmethod
+    def ask_question(api_key:str, prompt: str):
         try:
             completion = openai.Completion.create(
-                engine=self._engine_model,
+                api_key = api_key,
+                engine="text-davinci-003",
                 prompt=prompt,
                 max_tokens=2048,
                 n=1,

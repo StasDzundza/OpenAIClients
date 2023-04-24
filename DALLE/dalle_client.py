@@ -32,13 +32,15 @@ class ImageRequestData:
     size: ImageSize = ImageSize.MEDIUM
 
 class DALLEClient:
-    def __init__(self, api_key: str):
-        self.api_key = api_key
-        openai.api_key = api_key
-
-    def generate_images(self, image_data: ImageRequestData) -> list | None:
+    @staticmethod
+    def generate_images(api_key: str, image_data: ImageRequestData) -> list | None:
         try:
-            response = openai.Image.create(prompt=image_data.description, n=image_data.count, size=image_data.size.value[0])
+            response = openai.Image.create(
+                api_key=api_key,
+                prompt=image_data.description,
+                n=image_data.count,
+                size=image_data.size.value[0]
+            )
             if response:
                 return [img["url"] for img in response["data"]]
         except Exception as e:

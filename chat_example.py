@@ -6,8 +6,7 @@ def run_chat_example_request(api_key):
     print(f"Chat answer: {response}")
 
 def run_text_davinci_request(api_key):
-    client = TextDavinciClient(api_key)
-    response = client.ask_question("What is the weather in Ukraine for the next week?")
+    response = TextDavinciClient.ask_question(api_key, "What is the weather in Ukraine for the next week?")
     print(f"Davinci model answer: {response}")
 
 if __name__ == "__main__":
