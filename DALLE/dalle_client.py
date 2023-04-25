@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 class ImageSize(Enum):
     SMALL = "256x256",
     MEDIUM = "512x512",
-    LARGE = "1024x1024"
+    LARGE = "1024x1024",
 
 @dataclass
 class ImageRequestData:
@@ -39,7 +39,7 @@ class DALLEClient:
                 api_key=api_key,
                 prompt=image_data.description,
                 n=image_data.count,
-                size=image_data.size.value[0]
+                size=image_data.size.value
             )
             if response:
                 return [img["url"] for img in response["data"]]
