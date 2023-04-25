@@ -1,7 +1,7 @@
 from DALLE.dalle_client import DALLEClient, ImageRequestData, ImageSize
 
 def run_example_request(api_key):
-    request_data = ImageRequestData("Weather in Ukraine?", 2, ImageSize.MEDIUM)
+    request_data = ImageRequestData("Weather in Ukraine", 2, ImageSize.MEDIUM)
     urls = DALLEClient.generate_images(api_key, request_data)
     if urls:
         for url in urls:

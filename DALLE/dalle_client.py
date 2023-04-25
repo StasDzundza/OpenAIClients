@@ -29,7 +29,7 @@ class ImageSize(Enum):
 class ImageRequestData:
     description: str
     count: int = 1
-    size: str = "512x512"
+    size: ImageSize = ImageSize.MEDIUM
 
 class DALLEClient:
     @staticmethod
@@ -39,7 +39,7 @@ class DALLEClient:
                 api_key=api_key,
                 prompt=image_data.description,
                 n=image_data.count,
-                size=image_data.size
+                size=image_data.size.value[0]
             )
             if response:
                 return [img["url"] for img in response["data"]]
