@@ -36,7 +36,7 @@ class WhisperClient:
             media_file.close()
             if converted: os.remove(filename)
             logger.error(f"Error generating Whisper response: {e}")
-            return str(e)
+            return "An error occurred while generating a response: {e}"
 
 
     @staticmethod
