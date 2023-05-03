@@ -36,7 +36,7 @@ class WhisperClient:
             media_file.close()
             if converted: os.remove(filename)
             logger.error(f"Error generating Whisper response: {e}")
-            return "An error occurred while generating a response: {e}"
+            return f"An error occurred while generating a response: {e}"
 
 
     @staticmethod
@@ -48,7 +48,7 @@ class WhisperClient:
         file_extension = get_file_extension(path_to_file)
         if file_extension[1] not in WhisperClient.get_supported_file_formats():
             output_file = f"{file_extension[0]}.wav"
-            command = f"ffmpeg -y -i {path_to_file} -ac 1 -ar 16000 {output_file}"
+            command = f"ffmpeg -hide_banner -loglevel error -y -i {path_to_file} -ac 1 -ar 16000 {output_file}"
             subprocess.call(command, shell=True)
             return output_file
         else:

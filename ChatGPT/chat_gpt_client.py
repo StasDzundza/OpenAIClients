@@ -51,4 +51,4 @@ class TextDavinciClient:
             return response
         except Exception as e:
             logger.error(f"Error generating TextDavinciClient response: {e}")
-            return "An error occurred while generating a response: {e}"
+            return f"An error occurred while generating a response: {e}"
